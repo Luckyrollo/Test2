@@ -1,1 +1,384 @@
-# Test2
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenSi - Pizzeria Contemporanea & Cocktail Bar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #6d4c41; /* Marrone Terracotta SenSi */
+            --color-text: #2c2c2c;
+            --color-bg: #faf9f6; /* Crema chiarissimo */
+            --color-white: #ffffff;
+            --font-logo: 'Bodoni Moda', serif;
+            --font-script: 'Great Vibes', cursive;
+            --font-body: 'Montserrat', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Decorazione Sfondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(109, 76, 65, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(109, 76, 65, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Header --- */
+        header {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 20px;
+        }
+
+        .header-decor { font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.8; }
+        h1.logo-title { font-family: var(--font-logo); font-size: clamp(4rem, 15vw, 8rem); font-weight: 700; line-height: 0.9; letter-spacing: -2px; }
+        .logo-tagline { margin-top: 1.5rem; font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 3px; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3); padding: 10px 0; }
+
+        /* --- Navigazione --- */
+        nav {
+            position: sticky; top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1rem 0;
+            overflow-x: auto;
+        }
+        nav ul { display: flex; justify-content: center; list-style: none; gap: 10px; padding: 0 20px; min-width: max-content; }
+        nav a { 
+            text-decoration: none; color: var(--color-primary); 
+            text-transform: uppercase; font-weight: 700; font-size: 0.7rem; 
+            letter-spacing: 1px; padding: 10px 15px; transition: 0.3s; 
+            border-radius: 20px; 
+        }
+        nav a:hover { background: #eee; }
+        .nav-highlight { border: 1px solid var(--color-primary); background: var(--color-primary); color: white !important; }
+
+        /* --- Sezioni --- */
+        .menu-section { max-width: 1100px; margin: 4rem auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 3.5rem; }
+        .section-title span { display: block; font-family: var(--font-script); font-size: 3.5rem; color: #bcaaa4; margin-bottom: -15px; }
+        .section-title h2 { font-family: var(--font-logo); font-size: 2.8rem; color: var(--color-primary); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- Grid & Items --- */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+        .menu-item { 
+            background: white; padding: 1.8rem; border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02); transition: var(--transition); 
+            border-left: 4px solid transparent; 
+        }
+        .menu-item:hover { transform: translateY(-5px); border-left-color: var(--color-primary); box-shadow: 0 12px 25px rgba(0,0,0,0.06); }
+        .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+        .item-name { font-weight: 700; text-transform: uppercase; font-size: 1rem; color: var(--color-text); }
+        .item-price { font-family: var(--font-logo); font-weight: 700; font-size: 1.1rem; color: var(--color-primary); }
+        .item-desc { font-size: 0.85rem; color: #777; font-style: italic; line-height: 1.4; }
+
+        /* Simple List (per bibite e cocktail) */
+        .simple-list .menu-item { padding: 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+        .simple-list .item-header { border: none; margin: 0; width: 100%; }
+
+        /* Promo Box */
+        .promo-box { background: var(--color-primary); color: white; padding: 2.5rem; border-radius: 15px; text-align: center; box-shadow: 0 10px 20px rgba(109,76,65,0.2); }
+        .promo-price { font-size: 2rem; font-weight: 700; display: block; margin-top: 10px; color: #ffccbc; font-family: var(--font-logo); }
+
+        /* --- Prenotazione --- */
+        .booking-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: var(--color-primary); }
+        .form-control { 
+            padding: 14px; border: 1px solid #eee; border-radius: 8px; 
+            font-family: var(--font-body); font-size: 0.9rem; transition: 0.3s; background: #fdfdfd;
+        }
+        .form-control:focus { outline: none; border-color: var(--color-primary); background: white; }
+        .full-width { grid-column: span 2; }
+        .btn-submit { 
+            background: var(--color-primary); color: white; border: none; 
+            padding: 18px; text-transform: uppercase; font-weight: 700; 
+            letter-spacing: 2px; cursor: pointer; transition: 0.3s; border-radius: 8px; width: 100%;
+        }
+        .btn-submit:hover { background: #5d4037; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        #result-message { text-align: center; display: none; padding: 20px; }
+
+        /* --- Footer --- */
+        footer { background: var(--color-primary); color: white; text-align: center; padding: 4rem 1rem; margin-top: 6rem; }
+        .footer-logo { font-family: var(--font-logo); font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; }
+
+        /* Animazioni Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .section-title h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-decor">Dove ogni morso accende i</div>
+        <h1 class="logo-title">SenSi</h1>
+        <div class="logo-tagline">Pizza • Cocktail • Experience</div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#aperitivo">Aperitivo</a></li>
+            <li><a href="#pizze">Pizze</a></li>
+            <li><a href="#cocktail">Cocktail</a></li>
+            <li><a href="#bibite">Bibite</a></li>
+            <li><a href="#dessert">Dessert</a></li>
+            <li><a href="#prenota" class="nav-highlight">Prenota</a></li>
+        </ul>
+    </nav>
+
+    <section id="aperitivo" class="menu-section reveal">
+        <div class="section-title">
+            <span>Inizia con stile</span>
+            <h2>Aperitivo</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="promo-box">
+                <h3 style="font-family: var(--font-logo); font-size: 1.5rem;">Formula Aperipizza</h3>
+                <p>1 Pizza a scelta + 2 Cocktail/Bevande a scelta</p>
+                <small>(Idea per due persone)</small>
+                <span class="promo-price">€ 18,00</span>
+            </div>
+            <div class="promo-box" style="background: #8d6e63;">
+                <h3 style="font-family: var(--font-logo); font-size: 1.5rem;">Formula Aperifritti</h3>
+                <p>Mix di 3 Fritti della casa + Cocktail/Bevanda a scelta</p>
+                <span class="promo-price">€ 9,00</span>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem; font-style: italic; color: #888;">Disponibile tutti i giorni fino alle ore 19:30</p>
+    </section>
+
+    <section id="pizze" class="menu-section reveal">
+        <div class="section-title">
+            <span>Tradizione & Ricerca</span>
+            <h2>Le Nostre Pizze</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Marinara</span><span class="item-price">€ 7,00</span></div>
+                <div class="item-desc">Pomodoro San Marzano, aglio, origano, olio EVO.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Margherita</span><span class="item-price">€ 8,00</span></div>
+                <div class="item-desc">Pomodoro San Marzano, fiordilatte di Agerola, basilico fresco.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Diavola</span><span class="item-price">€ 8,50</span></div>
+                <div class="item-desc">Pomodoro, fiordilatte, salame piccante.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Margherita di Bufala</span><span class="item-price">€ 10,00</span></div>
+                <div class="item-desc">Pomodoro, mozzarella di bufala campana DOP, basilico.</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Salsiccia e Friarielli</span><span class="item-price">€ 12,00</span></div>
+                <div class="item-desc">Salsiccia a punta di coltello, friarielli campani, fiordilatte.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">La Pistacchiosa</span><span class="item-price">€ 13,00</span></div>
+                <div class="item-desc">Mortadella Bologna IGP, pesto di pistacchio di Bronte, bufala.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">SenSi</span><span class="item-price">€ 13,00</span></div>
+                <div class="item-desc">Prosciutto crudo, confettura di fichi, scaglie di grana, bufala.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Zucca e Guanciale</span><span class="item-price">€ 13,00</span></div>
+                <div class="item-desc">Vellutata di zucca, guanciale croccante, fiordilatte.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cocktail" class="menu-section reveal">
+        <div class="section-title">
+            <span>Mixology</span>
+            <h2>I Cocktail</h2>
+        </div>
+        <div class="menu-grid simple-list">
+            <div class="menu-item"><div class="item-header"><span class="item-name">Spritz (Aperol/Campari/Hugo)</span><span class="item-price">€ 6,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Gin Tonic / Lemon</span><span class="item-price">€ 7,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Negroni / Sbagliato</span><span class="item-price">€ 7,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Vodka Redbull / Lemon</span><span class="item-price">€ 7,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Disaronno Sour</span><span class="item-price">€ 8,00</span></div></div>
+        </div>
+    </section>
+
+    <section id="bibite" class="menu-section reveal">
+        <div class="section-title">
+            <span>Beverage</span>
+            <h2>Bibite & Birre</h2>
+        </div>
+        <div class="menu-grid simple-list">
+            <div class="menu-item"><div class="item-header"><span class="item-name">Acqua (Naturale/Frizzante) 750ml</span><span class="item-price">€ 2,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Coca Cola / Fanta / Sprite</span><span class="item-price">€ 2,50</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Birra Salento Agricola</span><span class="item-price">€ 4,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Birra Raffo Grezza</span><span class="item-price">€ 3,50</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Ichnusa Non Filtrata</span><span class="item-price">€ 3,00</span></div></div>
+        </div>
+    </section>
+
+    <section id="dessert" class="menu-section reveal">
+        <div class="section-title">
+            <span>Tentazioni</span>
+            <h2>Dessert</h2>
+        </div>
+        <div class="menu-grid simple-list">
+            <div class="menu-item"><div class="item-header"><span class="item-name">Tiramisù della Casa</span><span class="item-price">€ 6,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Cheesecake (Vari Gusti)</span><span class="item-price">€ 6,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Pizza alla Nutella</span><span class="item-price">€ 8,00</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Caffè</span><span class="item-price">€ 1,50</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Coperto</span><span class="item-price">€ 1,50</span></div></div>
+        </div>
+    </section>
+
+    <section id="prenota" class="menu-section reveal">
+        <div class="section-title">
+            <span>Riserva il tuo posto</span>
+            <h2>Prenotazione</h2>
+        </div>
+
+        <div class="booking-card">
+            <div id="result-message">
+                <span class="script" style="font-size: 3rem; color: var(--color-primary);">Grazie!</span>
+                <h3 style="font-family: var(--font-logo); margin-bottom: 15px;">Richiesta Inviata</h3>
+                <p>Abbiamo ricevuto la tua richiesta di prenotazione.<br>Ti contatteremo al più presto per confermare il tavolo.</p>
+                <button onclick="location.reload()" class="btn-submit" style="width: auto; margin-top: 20px; padding: 10px 30px;">Invia un'altra</button>
+            </div>
+
+            <form id="booking-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="39d12b7f-2541-424c-95c4-e5781c04cf3d">
+                <input type="hidden" name="subject" value="Nuova Prenotazione Tavolo - SenSi">
+                <input type="checkbox" name="botcheck" style="display: none;">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome & Cognome</label>
+                        <input type="text" name="name" class="form-control" placeholder="Mario Rossi" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email o Telefono</label>
+                        <input type="text" name="contact" class="form-control" placeholder="es. 333 1234567" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Numero Persone</label>
+                        <select name="guests" class="form-control">
+                            <option>2 Persone</option>
+                            <option>3 Persone</option>
+                            <option>4 Persone</option>
+                            <option>5+ Persone</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Note / Allergie</label>
+                        <textarea name="message" class="form-control" rows="3" placeholder="Scrivici se hai richieste particolari..."></textarea>
+                    </div>
+                    <div class="full-width">
+                        <button type="submit" id="submit-btn" class="btn-submit">Invia Prenotazione</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">SenSi</div>
+        <p>Pizzeria Contemporanea & Cocktail Bar</p>
+        <p style="font-size: 0.9rem; margin-top: 15px; opacity: 0.8;">Via del Gusto, 1 - Roma | Tel: +39 06 123 4567</p>
+        <p style="margin-top: 40px; font-size: 0.7rem; opacity: 0.5;">© 2026 SenSi. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        // Animazione allo scroll
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger iniziale
+
+        // Gestione Invio Form (AJAX)
+        const form = document.getElementById('booking-form');
+        const result = document.getElementById('result-message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            submitBtn.innerHTML = "Invio in corso...";
+            submitBtn.disabled = true;
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    form.style.display = "none";
+                    result.style.display = "block";
+                } else {
+                    alert("Si è verificato un errore. Riprova più tardi.");
+                    submitBtn.innerHTML = "Invia Prenotazione";
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                alert("Errore di connessione.");
+                submitBtn.innerHTML = "Invia Prenotazione";
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+
+</body>
+</html>
